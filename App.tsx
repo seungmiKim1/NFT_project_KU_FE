@@ -1,15 +1,16 @@
 import { createGlobalStyle } from 'styled-components';
 import React, { useState, useEffect } from "react";
-import QRCode from "qrcode.react";
+//import QRCode from "qrcode.react";
 import * as KlipAPI from "./klip_test.js";
 import {
   Alert,
-  Container,
+  //Container,
   } from "react-bootstrap";
 
 //QR코드와 지갑 주소를 초기화
-const DEFAULT_QR_CODE = "DEFAULT";
+//const DEFAULT_QR_CODE = "DEFAULT";
 const DEFAULT_ADDRESS = "0x00000000000000000000000000000";
+const DEFAULT_RESULT = "DEFAULT";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -75,39 +76,24 @@ a {
 
 function App() {
 
-  const [qrvalue_auth, setQrvalue_auth] = useState(DEFAULT_QR_CODE);
+  /*const [qrvalue_auth, setQrvalue_auth] = useState(DEFAULT_QR_CODE);*/
   const [myAddress, setMyAddress] = useState(DEFAULT_ADDRESS);
+  
   
   //지갑 연동하는 함수 실행
   const getUserData = () => {
-    KlipAPI.getAddress(setQrvalue_auth, async (address : string) => {
+    KlipAPI.getAddress(//setQrvalue_auth, 
+      async (address : string) => {
       setMyAddress(address);	//사용자의 지갑 주소를 가져온다
     });
+    
   };
   
   return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={getUserData}> "버미와 수리 만나러가기"</button>
-        {qrvalue_auth !== "DEFAULT" ? (		//klip_test.js에서 getAddress의 request_key가 제대로 설정되면 setQRvalue에 의해 DEFAULT 상태에서 벗어나게 된다
-          <Container
-            style={{
-              backgroundColor: "white",
-              width: 300,
-              height: 300,
-              padding: 20,
-            }}
-          >
-            <QRCode value={qrvalue_auth} size={256} style={{ margin: "auto" }} />	{/*QR코드를 세팅한다*/}
-  
-            <br />
-            <br />
-          </Container>
-        ) : null}
+        <button onClick={getUserData}>버미와 수리 만나러 가기</button>
         
-      </header>
-    </div>
-  );
+  )
+    
   }
   
   export default App;
